@@ -156,12 +156,55 @@ class _HomeScreenState extends State<HomeScreen> {
                               mainAxisAlignment: MainAxisAlignment.end,
                               children: [
                                 Utils().getActionButton(
-                                    icon: Icons.delete,
+                                    icon: const Icon(Icons.delete,
+                                        color: Colors.red),
                                     onTap: () async {
                                       try {
-                                        await todoProvider.deleteTodo(
-                                            todoProvider.task[index].id
-                                                .toString());
+                                        showDialog(
+                                            context: context,
+                                            builder: (context) => AlertDialog(
+                                                  title: const Center(
+                                                    child: Text(
+                                                        'Want to delete TODO!'),
+                                                  ),
+                                                  content: Text(
+                                                      "Todo Id: ${todoProvider.task[index].id} \nTodo: ${todoProvider.task[index].title}",
+                                                      style: const TextStyle(
+                                                          fontSize: 20)),
+                                                  actions: [
+                                                    Row(
+                                                      mainAxisAlignment:
+                                                          MainAxisAlignment
+                                                              .spaceEvenly,
+                                                      children: [
+                                                        Utils().getActionButton(
+                                                            icon: const Icon(
+                                                                CupertinoIcons
+                                                                    .clear),
+                                                            onTap: () =>
+                                                                Navigator.pop(
+                                                                    context)),
+                                                        Utils().getActionButton(
+                                                            icon: const Icon(
+                                                                Icons.delete,
+                                                                color:
+                                                                    Colors.red),
+                                                            onTap: () {
+                                                              todoProvider.deleteTodo(
+                                                                  todoProvider
+                                                                      .task[
+                                                                          index]
+                                                                      .id
+                                                                      .toString());
+                                                              if (mounted) {
+                                                                Navigator.pop(
+                                                                    context);
+                                                              }
+                                                            })
+                                                      ],
+                                                    ),
+                                                  ],
+                                                ));
                                       } catch (e) {
                                         if (mounted) {
                                           getSnackBar('Something went wrong!');
@@ -169,14 +212,15 @@ class _HomeScreenState extends State<HomeScreen> {
                                       }
                                     }),
                                 Utils().getActionButton(
-                                    icon: Icons.share,
+                                    icon: const Icon(Icons.share,
+                                        color: Colors.blue),
                                     onTap: () async => await shareTodo(
                                         id: todoProvider.task[index].id
                                             .toString(),
                                         title: todoProvider.task[index].title ??
                                             "")),
                                 Utils().getActionButton(
-                                    icon: Icons.edit,
+                                    icon: const Icon(Icons.edit),
                                     onTap: () => getShowDialogue(todoProvider,
                                         isUpdating: true, todoId: index)),
                               ],

@@ -18,14 +18,14 @@ class Utils {
     );
   }
 
-  getActionButton({void Function()? onTap, required IconData icon}) {
+  getActionButton({void Function()? onTap, required Icon icon}) {
     return Padding(
       padding: const EdgeInsets.all(5.0),
       child: CircleAvatar(
         backgroundColor: CupertinoColors.white,
         child: IconButton(
           onPressed: onTap,
-          icon: Icon(icon),
+          icon: icon,
         ),
       ),
     );
