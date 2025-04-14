@@ -1,16 +1,20 @@
-# todo_app
+# ✅ Flutter TODO App
 
-A new Flutter project.
+A modern TODO app built with Flutter that supports real-time task sharing and syncing across devices. This app follows the MVVM architecture and uses Provider for state management. Designed with a responsive UI for both mobile and tablet screens.
 
-## Getting Started
+## 🚀 Features
 
-This project is a starting point for a Flutter application.
+- 📋 Create, edit, delete tasks
+- 👥 Share tasks with other users
+- 🔄 Real-time sync across devices
+- 🧠 MVVM architecture
+- 🗂️ State management using `Provider`
+- 📱 Responsive UI 
+- ☁️ Firebase
 
-A few resources to get you started if this is your first Flutter project:
+### Installation
 
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
-
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+git clone https://github.com/ManojKumar-GS/todo_app.git
+cd todo_app
+flutter pub get
+flutter run
