@@ -366,7 +366,7 @@ class _HomeScreenState extends State<HomeScreen> {
   }
 
   addOrUpdateTodo(TaskViewModel todoProvider,
-      {bool isUpdating = false, required int todoId}) async {
+      {bool isUpdating = false, required int todoId}) {
     TodoModel todoModel = TodoModel(
         id: isUpdating
             ? todoProvider.task[todoId].id.toString()
@@ -383,7 +383,7 @@ class _HomeScreenState extends State<HomeScreen> {
 
     try {
       isUpdating
-          ? await todoProvider.updateTodo(
+          ? todoProvider.updateTodo(
               id: todoProvider.task[todoId].id.toString(), todo: todoModel)
           : todoProvider.addTodo(todoModel);
 
