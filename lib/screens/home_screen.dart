@@ -40,12 +40,12 @@ class _HomeScreenState extends State<HomeScreen> {
           length: 3,
           child: Scaffold(
             appBar: AppBar(
-              toolbarHeight: 100,
+              toolbarHeight: MediaQuery.sizeOf(context).height * 0.1,
               title: const Padding(
                 padding: EdgeInsets.only(top: 18, bottom: 20),
                 child: ListTile(
-                  title: Text("Welcome Back"),
-                  subtitle: Text("Manoj Kumar",
+                  title: Text("Welcome Back!"),
+                  subtitle: Text("UserName",
                       style: TextStyle(fontWeight: FontWeight.w900)),
                   leading: CircleAvatar(
                     radius: 30,
