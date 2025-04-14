@@ -271,7 +271,7 @@ class _HomeScreenState extends State<HomeScreen> {
                 ),
                 enabled: false,
                 initialValue:
-                    'TODO: ${isUpdating ? todoProvider.task[todoId].id : (todoProvider.task.length + 1)}',
+                    'TODO: ${isUpdating ? todoProvider.task[todoId].id : (int.parse(todoProvider.task.last.id ?? "0") + 1).toString()}',
               ),
               const SizedBox(height: 10),
               TextFormField(
@@ -353,7 +353,7 @@ class _HomeScreenState extends State<HomeScreen> {
     TodoModel todoModel = TodoModel(
         id: isUpdating
             ? todoProvider.task[todoId].id.toString()
-            : (todoProvider.task.length + 1).toString(),
+            : (int.parse(todoProvider.task.last.id ?? "0") + 1).toString(),
         title: titleEditingController.value.text,
         createdAt: isUpdating
             ? todoProvider.task[todoId].createdAt

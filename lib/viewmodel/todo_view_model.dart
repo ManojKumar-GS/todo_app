@@ -32,7 +32,7 @@ class TaskViewModel extends ChangeNotifier {
     try {
       await FirebaseFirestore.instance
           .collection('todo_list')
-          .doc("${_todo.length + 1}")
+          .doc((int.parse(_todo.last.id ?? "0") + 1).toString())
           .set(data);
     } catch (e) {
       rethrow;
