@@ -12,6 +12,7 @@ A modern TODO app built with Flutter that supports real-time task sharing and sy
 - 📱 Responsive UI 
 - ☁️ Firebase
 
+```bash
 ### Installation
 
 git clone https://github.com/ManojKumar-GS/todo_app.git
