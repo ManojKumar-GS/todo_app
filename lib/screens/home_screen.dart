@@ -88,159 +88,176 @@ class _HomeScreenState extends State<HomeScreen> {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Expanded(
-                child: ListView.builder(
-              padding: const EdgeInsets.all(10),
-              itemCount: todoProvider.task.length,
-              itemBuilder: (context, index) {
-                if (isPendingTab || isDoneTab) {
-                  if (isPendingTab &&
-                      (todoProvider.task[index].isCompleted ?? false)) {
-                    return const SizedBox.shrink();
-                  }
-                  if (!(todoProvider.task[index].isCompleted ?? false) &&
-                      isDoneTab) {
-                    return const SizedBox.shrink();
-                  }
-                }
-                return Column(
-                  children: [
-                    Container(
-                      decoration: BoxDecoration(
-                        color: Utils().getRandomNonBlackColor(),
-                        borderRadius:
-                            const BorderRadius.all(Radius.circular(20)),
-                      ),
-                      height: 170,
-                      width: MediaQuery.sizeOf(context).width,
-                      child: Padding(
-                        padding: const EdgeInsets.all(15.0),
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                          children: [
-                            Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: [
-                                Text('# ${todoProvider.task[index].id ?? ""}',
-                                    style: const TextStyle(
-                                        fontWeight: FontWeight.w600,
-                                        fontSize: 20,
-                                        color: Colors.black)),
-                                Badge(
-                                  backgroundColor:
-                                      (todoProvider.task[index].isCompleted ??
-                                              false)
-                                          ? Colors.red
-                                          : Colors.green,
-                                  largeSize: 30,
-                                  padding: const EdgeInsets.symmetric(
-                                      horizontal: 15),
-                                  label: Text(
-                                      (todoProvider.task[index].isCompleted ??
-                                              false)
-                                          ? "Done"
-                                          : "Pending"),
-                                )
-                              ],
-                            ),
-                            Text(todoProvider.task[index].title ?? "",
-                                style: const TextStyle(
-                                    color: Colors.black, fontSize: 25)),
-                            Text(
-                                'Created at: ${todoProvider.task[index].createdAt?.substring(0, 16) ?? ""}',
-                                style: const TextStyle(
-                                    overflow: TextOverflow.ellipsis,
-                                    color: Colors.black,
-                                    fontSize: 15)),
-                            Row(
-                              mainAxisAlignment: MainAxisAlignment.end,
-                              children: [
-                                Utils().getActionButton(
-                                    icon: const Icon(Icons.delete,
-                                        color: Colors.red),
-                                    onTap: () async {
-                                      try {
-                                        showDialog(
-                                            context: context,
-                                            builder: (context) => AlertDialog(
-                                                  title: const Center(
-                                                    child: Text(
-                                                        'Want to delete TODO!'),
-                                                  ),
-                                                  content: Text(
-                                                      "Todo Id: ${todoProvider.task[index].id} \nTodo: ${todoProvider.task[index].title}",
-                                                      style: const TextStyle(
-                                                          fontSize: 20)),
-                                                  actions: [
-                                                    Row(
-                                                      mainAxisAlignment:
-                                                          MainAxisAlignment
-                                                              .spaceEvenly,
-                                                      children: [
-                                                        Utils().getActionButton(
-                                                            icon: const Icon(
-                                                                CupertinoIcons
-                                                                    .clear),
-                                                            onTap: () =>
-                                                                Navigator.pop(
-                                                                    context)),
-                                                        Utils().getActionButton(
-                                                            icon: const Icon(
-                                                                Icons.delete,
-                                                                color:
-                                                                    Colors.red),
-                                                            onTap: () {
-                                                              todoProvider.deleteTodo(
-                                                                  todoProvider
-                                                                      .task[
-                                                                          index]
-                                                                      .id
-                                                                      .toString());
-                                                              if (mounted) {
-                                                                Navigator.pop(
-                                                                    context);
-                                                              }
-                                                            })
-                                                      ],
-                                                    ),
-                                                  ],
-                                                ));
-                                      } catch (e) {
-                                        if (mounted) {
-                                          getSnackBar('Something went wrong!');
-                                        }
-                                      }
-                                    }),
-                                Utils().getActionButton(
-                                    icon: const Icon(Icons.share,
-                                        color: Colors.blue),
-                                    onTap: () async => await shareTodo(
-                                        id: todoProvider.task[index].id
-                                            .toString(),
-                                        title: todoProvider.task[index].title ??
-                                            "")),
-                                Utils().getActionButton(
-                                    icon: const Icon(Icons.edit),
-                                    onTap: () => getShowDialogue(todoProvider,
-                                        isUpdating: true, todoId: index)),
-                              ],
-                            )
-                          ],
-                        ),
-                      ),
-                    ),
-                    const SizedBox(height: 5)
-                  ],
-                );
-              },
-            )),
+                child: todoProvider.task.isEmpty
+                    ? Center(
+                        child: TextButton(
+                            child: const Text("Create TODO"),
+                            onPressed: () => getShowDialogue(todoProvider,
+                                isUpdating: false, todoId: 0)),
+                      )
+                    : ListView.builder(
+                        padding: const EdgeInsets.all(10),
+                        itemCount: todoProvider.task.length,
+                        itemBuilder: (context, index) {
+                          if (isPendingTab || isDoneTab) {
+                            if (isPendingTab &&
+                                (todoProvider.task[index].isCompleted ??
+                                    false)) {
+                              return const SizedBox.shrink();
+                            }
+                            if (!(todoProvider.task[index].isCompleted ??
+                                    false) &&
+                                isDoneTab) {
+                              return const SizedBox.shrink();
+                            }
+                          }
+                          return Column(
+                            children: [
+                              Container(
+                                decoration: BoxDecoration(
+                                  color: Utils().getRandomNonBlackColor(),
+                                  borderRadius: const BorderRadius.all(
+                                      Radius.circular(20)),
+                                ),
+                                height: 170,
+                                width: MediaQuery.sizeOf(context).width,
+                                child: Padding(
+                                  padding: const EdgeInsets.all(15.0),
+                                  child: Column(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    mainAxisAlignment:
+                                        MainAxisAlignment.spaceEvenly,
+                                    children: [
+                                      Row(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.spaceBetween,
+                                        children: [
+                                          Text(
+                                              '# ${todoProvider.task[index].id ?? ""}',
+                                              style: const TextStyle(
+                                                  fontWeight: FontWeight.w600,
+                                                  fontSize: 20,
+                                                  color: Colors.black)),
+                                          Badge(
+                                            backgroundColor: (todoProvider
+                                                        .task[index]
+                                                        .isCompleted ??
+                                                    false)
+                                                ? Colors.red
+                                                : Colors.green,
+                                            largeSize: 30,
+                                            padding: const EdgeInsets.symmetric(
+                                                horizontal: 15),
+                                            label: Text((todoProvider
+                                                        .task[index]
+                                                        .isCompleted ??
+                                                    false)
+                                                ? "Done"
+                                                : "Pending"),
+                                          )
+                                        ],
+                                      ),
+                                      Text(todoProvider.task[index].title ?? "",
+                                          style: const TextStyle(
+                                              color: Colors.black,
+                                              fontSize: 25)),
+                                      Text(
+                                          'Created at: ${todoProvider.task[index].createdAt?.substring(0, 16) ?? ""}',
+                                          style: const TextStyle(
+                                              overflow: TextOverflow.ellipsis,
+                                              color: Colors.black,
+                                              fontSize: 15)),
+                                      Row(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.end,
+                                        children: [
+                                          Utils().getActionButton(
+                                              icon: const Icon(Icons.delete,
+                                                  color: Colors.red),
+                                              onTap: () async {
+                                                try {
+                                                  showDialog(
+                                                      context: context,
+                                                      builder:
+                                                          (context) =>
+                                                              AlertDialog(
+                                                                title:
+                                                                    const Center(
+                                                                  child: Text(
+                                                                      'Want to delete TODO!'),
+                                                                ),
+                                                                content: Text(
+                                                                    "Todo Id: ${todoProvider.task[index].id} \nTodo: ${todoProvider.task[index].title}",
+                                                                    style: const TextStyle(
+                                                                        fontSize:
+                                                                            20)),
+                                                                actions: [
+                                                                  Row(
+                                                                    mainAxisAlignment:
+                                                                        MainAxisAlignment
+                                                                            .spaceEvenly,
+                                                                    children: [
+                                                                      Utils().getActionButton(
+                                                                          icon: const Icon(CupertinoIcons
+                                                                              .clear),
+                                                                          onTap: () =>
+                                                                              Navigator.pop(context)),
+                                                                      Utils().getActionButton(
+                                                                          icon: const Icon(Icons.delete, color: Colors.red),
+                                                                          onTap: () {
+                                                                            todoProvider.deleteTodo(todoProvider.task[index].id.toString());
+                                                                            if (mounted) {
+                                                                              Navigator.pop(context);
+                                                                            }
+                                                                          })
+                                                                    ],
+                                                                  ),
+                                                                ],
+                                                              ));
+                                                } catch (e) {
+                                                  if (mounted) {
+                                                    getSnackBar(
+                                                        'Something went wrong!');
+                                                  }
+                                                }
+                                              }),
+                                          Utils().getActionButton(
+                                              icon: const Icon(Icons.share,
+                                                  color: Colors.blue),
+                                              onTap: () async =>
+                                                  await shareTodo(
+                                                      id: todoProvider
+                                                          .task[index].id
+                                                          .toString(),
+                                                      title: todoProvider
+                                                              .task[index]
+                                                              .title ??
+                                                          "")),
+                                          Utils().getActionButton(
+                                              icon: const Icon(Icons.edit),
+                                              onTap: () => getShowDialogue(
+                                                  todoProvider,
+                                                  isUpdating: true,
+                                                  todoId: index)),
+                                        ],
+                                      )
+                                    ],
+                                  ),
+                                ),
+                              ),
+                              const SizedBox(height: 5)
+                            ],
+                          );
+                        },
+                      )),
           ],
         ));
   }
 
   getSnackBar(String text) {
     return ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-      content: Text(text),
+      content: Center(child: Text(text)),
       padding: const EdgeInsets.all(10),
       margin: EdgeInsets.all(MediaQuery.sizeOf(context).height * 0.01),
       behavior: SnackBarBehavior.floating,
@@ -271,7 +288,7 @@ class _HomeScreenState extends State<HomeScreen> {
                 ),
                 enabled: false,
                 initialValue:
-                    'TODO: ${isUpdating ? todoProvider.task[todoId].id : (int.parse(todoProvider.task.last.id ?? "0") + 1).toString()}',
+                    'TODO: ${isUpdating ? todoProvider.task[todoId].id : (int.parse(todoProvider.task.isEmpty ? "0" : todoProvider.task.last.id ?? "0") + 1).toString()}',
               ),
               const SizedBox(height: 10),
               TextFormField(
@@ -353,7 +370,11 @@ class _HomeScreenState extends State<HomeScreen> {
     TodoModel todoModel = TodoModel(
         id: isUpdating
             ? todoProvider.task[todoId].id.toString()
-            : (int.parse(todoProvider.task.last.id ?? "0") + 1).toString(),
+            : (int.parse(todoProvider.task.isEmpty
+                        ? "0"
+                        : todoProvider.task.last.id ?? "0") +
+                    1)
+                .toString(),
         title: titleEditingController.value.text,
         createdAt: isUpdating
             ? todoProvider.task[todoId].createdAt
